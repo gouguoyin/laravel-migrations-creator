@@ -1,7 +1,7 @@
 {
     "name": "gouguoyin/laravel-migrations-creator",
     "description": "Create Laravel6.0+ migrations from an existing database,including fields,indexes and foreign keys",
-    "keywords": ["laravel6", "migration", "migrations", "migrations-creator", "laravel-migrations-creator","laravel-tools"],
+    "keywords": ["laravel6", "migration", "migrations", "migrations-creator", "laravel-migrations-creator", "laravel-tools"],
     "license": "MIT",
     "authors": [
         {
