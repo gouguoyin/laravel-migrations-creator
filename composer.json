@@ -1,5 +1,5 @@
 {
-    "name": "gouguoyin/migrations-creator",
+    "name": "gouguoyin/laravel-migrations-creator",
     "description": "Create Laravel6.0+ migrations from an existing database,including fields,indexes and foreign keys",
     "keywords": ["laravel6", "migrations", "creator", "artisan"],
     "license": "MIT",
