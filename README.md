@@ -34,15 +34,15 @@ public function register()
 
 ## 使用说明
 
-#### 生成默认数据库所有数据表
+#### 生成默认数据库的所有数据表迁移文件
 
 `php artisan migrate:create`
 
-#### 生成指定数据库所有数据表
+#### 生成指定数据库的所有数据表迁移文件
 
 `php artisan migrate:create --connection='mysql''`
 
-#### 生成指定数据表
+#### 生成指定数据表迁移文件
 
 `php artisan migrate:create 'table1,table2,……'`
 
@@ -50,7 +50,7 @@ public function register()
 
 `php artisan migrate:create --tables='table1,table2,……'`
 
-#### 忽略指定数据表
+#### 生成忽略数据表之外的数据表迁移文件
 
 `php artisan migrate:create --ignores='table1,table2,……'`
 
