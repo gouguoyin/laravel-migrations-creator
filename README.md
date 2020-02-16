@@ -1,98 +1,59 @@
-# Laravel Migrations Creator
+### 项目说明
 
-Create Laravel Migrations from an existing database, including fields, indexes and foreign keys!
+Laravel Migrations Creator 是一个专门为Laravel6+ 版本从已有数据表反向生成数据库迁移文件的扩展包，支持字段、索引和外键，目前仅支持Mysql驱动。
 
-## Laravel 5 installation
+### 安装说明
 
-The recommended way to install this is through composer:
+#### 1、安装 migration-creator
 
 ```bash
-composer require --dev "gouguoyin/migrations-creator"
+composer require --dev "gouguoyin/laravel-migrations-creator"
 ```
 
-In Laravel 5.5 the service providers will automatically get registered. 
+#### 2. 添加到服务提供者
 
-In older versions of the framework edit `config/app.php` and add this to providers section:
+在 `config/app.php` 的 `providers` 数组中加入
 
-```php
-Gouguoyin\Migrate\MigrateServiceProvider::class,
+```bash
+Gouguoyin\MigrationsCreator\MigrateServiceProvider::class
 ```
 
-If you want this lib only for dev, you can add the following code to your `app/Providers/AppServiceProvider.php` file, within the `register()` method:
+#### 3. 开发环境运行
 
-```php
+如果你只在开发环境中安装，那么可以在 `app/Providers/AppServiceProvider.php` 的 `register` 方法中写入下面代码：
+
+```bash
 public function register()
 {
     if ($this->app->environment() !== 'production') {
-        $this->app->register(\Gouguoyin\Migrate\MigrateServiceProvider::class);
+        $this->app->register(\Gouguoyin\MigrationsCreator\MigrateServiceProvider::class);
     }
     // ...
 }
 ```
 
-## Usage
+## 使用说明
 
-To generate migrations from a database, you need to have your database setup in Laravel's Config.
+#### 生成默认数据库所有数据表
 
-Run `php artisan migrate:generate` to create migrations for all the tables, or you can specify the tables you wish to generate using `php artisan migrate:generate table1,table2,table3,table4,table5`. You can also ignore tables with `--ignore="table3,table4,table5"`
+`php artisan migrate:create`
 
-Laravel Migrations Generator will first generate all the tables, columns and indexes, and afterwards setup all the foreign key constraints. So make sure you include all the tables listed in the foreign keys so that they are present when the foreign keys are created.
+#### 生成指定数据库所有数据表
 
-You can also specify the connection name if you are not using your default connection with `--connection="connection_name"`
+`php artisan migrate:create --connection='mysql''`
 
-Run `php artisan help migrate:generate` for a list of options.
+#### 生成指定数据表
 
-Check out Chung Tran's blog post for a quick step by step introduction: [Generate Migrations from an existing database in Laravel 4](http://codingtip.blogspot.com/2014/04/laravel-4-generate-migration-existed-dabase-laravel-4.html)
+`php artisan migrate:create 'table1,table2,……'`
 
-## Changelog
+或者
 
-Changelog for Laravel Migrations Generator
+`php artisan migrate:create --tables='table1,table2,……'`
 
-### 20 November 2016: v2.0.0
-* Support for Laravel 5
+#### 忽略指定数据表
 
-### 20 November 2016: v1.3.0
-* Add options --defaultIndexNames and --defaultFKNames to use Laravel's default generated names
-* --no-interaction support
-* Migrate table field comments
-* Add connection to migrations if its not the default
-* Bugfix:
-  * --ignore doesn't ignoring the first table in the list
-  * Remove backticks from index names #17
-  * Drop foreign keys used incorrect key name #34
-  * Remove table prefix from migrations
-  * Escape table names and args
-  * Map JSON columns as text
-  * Boolean default results in empty string
+`php artisan migrate:create --ignores='table1,table2,……'`
 
-### 25 July: v1.2.2
-* Support for Laravel 4.2
-* Support for named foreign keys
-* Fix error with --ignore option
+## 致谢声明
 
-### 29 May: v1.2.1
-* Fixed problem with char fields showing up as varchar
-* Allow decimal, float, and double to be unsigned
-* Allow cascading on foreign key update/delete
-
-### 16 May: v1.2.0
-* Now fully supports for enum fields
-* Add support for bit fields as Boolean (Laravel Migration Limitation)
-
-### 10 May: v1.1.1
-* Fix crash when migrating tables that use enum
-* Added Tests
-* Major refactoring of the code
-
-### 24 March: v1.1.0
-* Ability to add entries into the Migrations Table, so that they won't be run as they already exist.
-* Convert Blobs to Binary fields
-* Minor Code Changes
-
-## Thank You
-
-Thanks to Xethron Way for his amazing migrations-generator package. This package depends greatly on his work.
-
-## License
-
-The Laravel Migrations Generator is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+感谢Xethron 的 [migrations-generator](https://github.com/Xethron/migrations-generator) 扩展，本扩展借鉴了此扩展的思路，遗憾的是此扩展已经停止更新，仅支持到 Laravel5.4 版本
