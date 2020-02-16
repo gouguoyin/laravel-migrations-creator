@@ -1,0 +1,34 @@
+{
+    "name": "gouguoyin/migrations-creator",
+    "description": "Create Laravel6.0+ migrations from an existing database,including fields,indexes and foreign keys",
+    "keywords": ["laravel6", "migrations", "creator", "artisan"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "gouguoyin",
+            "email": "245629560@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "illuminate/support": " ~5.0 || ~6.0",
+        "illuminate/console": " ~5.0 || ~6.0",
+        "doctrine/dbal": "~2.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gouguoyin\\MigrationsCreator\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gouguoyin\\MigrationsCreator\\MigrateServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
