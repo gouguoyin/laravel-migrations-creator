@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 
 class MigrateCommand extends Command
 {
-    protected $signature = 'migrate:make {tables?} {--tables=} {--ignores=} {--connection=}';
+    protected $signature = 'migrate:create {tables?} {--tables=} {--ignores=} {--connection=}';
 
-    protected $description = '从已有数据表创建迁移文件';
+    protected $description = 'Create migrations from an existing database';
 
     protected $schema;
 
