@@ -62,10 +62,12 @@ public function register()
 * 支持日期时间字段ON UPDATE CURRENT_TIMESTAMP
 
 ### 2020-02-15
-* 新增获取表注释方法getEngine()
-* 新增获取表引擎方法getComment()
-* 新增获取表字符集方法getCollation()
-* 新增获取表当前自增值方法getAutoIncrement()
+* 新增获取表注释方法
+* 新增获取表引擎方法
+* 新增获取表字符集方法
+* 新增获取表当前自增值方法
+* 支持字段字符集(character set)设置
+* 支持字段排序规则(collation)设置
 
 ## 致谢声明
 
