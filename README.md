@@ -54,6 +54,14 @@ public function register()
 
 `php artisan migrate:create --ignores='table1,table2,……'`
 
+## 更新日志
+
+Changelog for Laravel Migrations Generator
+
+### 2020-02-17
+* 支持表注释
+* 支持日期时间字段CURRENT_TIMESTAMP以及on update CURRENT_TIMESTAMP
+
 ## 致谢声明
 
 感谢Xethron 的 [migrations-generator](https://github.com/Xethron/migrations-generator) 扩展，本扩展借鉴了此扩展的思路，遗憾的是此扩展已经停止更新，仅支持到 Laravel5.4 版本
