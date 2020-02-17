@@ -52,11 +52,11 @@ class FieldCreator
      */
     public function getCreateStatements()
     {
-        $statements = '';
+        $statements = PHP_EOL;
         foreach ($this->getFields() as $field) {
             $statements .= str_repeat(" ", 12) . $this->_getCreateStatement($field) . PHP_EOL;
         }
-        return $statements;
+        return rtrim($statements, PHP_EOL);
     }
 
     /**
@@ -213,7 +213,7 @@ class FieldCreator
             $statement .= '->nullable()';
         }
 
-        if($default){
+        if(!is_null($default)){
             $statement .= "->default({$default})";
         }
 
@@ -251,7 +251,7 @@ class FieldCreator
     {
         $default = $column->COLUMN_DEFAULT;
 
-        if(FieldType::isDateTime($column->DATA_TYPE)){
+        if(!is_null($default) && FieldType::isDateTime($column->DATA_TYPE)){
             $default = "'{$default}'";
         }
 
@@ -260,6 +260,10 @@ class FieldCreator
         }
 
         if($column->EXTRA == 'on update CURRENT_TIMESTAMP'){
+            $default = "DB::raw('ON UPDATE CURRENT_TIMESTAMP')";
+        }
+
+        if($column->COLUMN_DEFAULT == 'CURRENT_TIMESTAMP' && $column->EXTRA == 'on update CURRENT_TIMESTAMP'){
             $default = "DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')";
         }
 

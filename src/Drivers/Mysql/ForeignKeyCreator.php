@@ -28,13 +28,13 @@ class ForeignKeyCreator
      */
     public function getCreateStatements()
     {
-        $statements = '';
+        $statements = PHP_EOL;
         foreach ($this->getForeignKeys() as $key) {
             if($statement = $this->_getCreateStatement($key)){
                 $statements .= str_repeat(" ", 12) . $statement . PHP_EOL;
             }
         }
-        return $statements;
+        return rtrim($statements, PHP_EOL);
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Gouguoyin\MigrationsCreator\Drivers;
 
 abstract class AbstractSchemaCreator
 {
-    protected $connection;
     protected $database;
     protected $schema;
 
@@ -20,6 +19,34 @@ abstract class AbstractSchemaCreator
      * @return mixed
      */
     abstract public function getTables();
+
+    /**
+     * 获取指定表引擎
+     * @param $table
+     * @return mixed
+     */
+    abstract public function getEngine($table);
+
+    /**
+     * 获取指定表注释
+     * @param $table
+     * @return mixed
+     */
+    abstract public function getComment($table);
+
+    /**
+     * 获取指定表字符集
+     * @param $table
+     * @return mixed
+     */
+    abstract public function getCollation($table);
+
+    /**
+     * 获取指定表自增值
+     * @param $table
+     * @return mixed
+     */
+    abstract public function getAutoIncrement($table);
 
     /**
      * 获取指定表的所有字段

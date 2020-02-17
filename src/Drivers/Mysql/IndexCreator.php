@@ -28,13 +28,13 @@ class IndexCreator
      */
     public function getCreateStatements()
     {
-        $statements = '';
+        $statements = PHP_EOL;
         foreach ($this->getIndexes() as $index) {
             if($statement = $this->_getCreateStatement($index)){
                 $statements .= str_repeat(" ", 12) . $statement . PHP_EOL;
             }
         }
-        return $statements;
+        return rtrim($statements, PHP_EOL);
     }
 
     /**

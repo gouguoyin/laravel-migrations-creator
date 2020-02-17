@@ -9,9 +9,16 @@ class SchemaCreator extends AbstractSchemaCreator
 {
     public function __construct($connection)
     {
-        $this->connection = DB::connection($connection)->getDoctrineConnection();
-        $this->database = $this->connection->getDatabase();
-        $this->schema   = $this->connection->getSchemaManager();
+        $connection = DB::connection($connection)->getDoctrineConnection();
+
+        $platform       = $connection->getDatabasePlatform();
+        $this->database = $connection->getDatabase();
+        $this->schema   = $connection->getSchemaManager();
+
+        $platform->registerDoctrineTypeMapping('json', 'text');
+        $platform->registerDoctrineTypeMapping('jsonb', 'text');
+        $platform->registerDoctrineTypeMapping('enum', 'string');
+        $platform->registerDoctrineTypeMapping('bit', 'boolean');
     }
 
     /**
@@ -22,6 +29,46 @@ class SchemaCreator extends AbstractSchemaCreator
     public function hasTable($table)
     {
         return $this->schema->tablesExist([$table]);
+    }
+
+    /**
+     * 获取指定表引擎
+     * @param $table
+     * @return mixed
+     */
+    public function getEngine($table)
+    {
+        return $this->_getTableCreator($table)->getEngine();
+    }
+
+    /**
+     * 获取指定表注释
+     * @param $table
+     * @return mixed
+     */
+    public function getComment($table)
+    {
+        return $this->_getTableCreator($table)->getComment();
+    }
+
+    /**
+     * 获取指定表字符集
+     * @param $table
+     * @return mixed
+     */
+    public function getCollation($table)
+    {
+        return $this->_getTableCreator($table)->getCollation();
+    }
+
+    /**
+     * 获取指定表自增值
+     * @param $table
+     * @return mixed
+     */
+    public function getAutoIncrement($table)
+    {
+        return $this->_getTableCreator($table)->getAutoIncrement();
     }
 
     /**
@@ -40,7 +87,7 @@ class SchemaCreator extends AbstractSchemaCreator
      */
     public function getFields($table)
     {
-        return $this->getFieldCreator($table)->getFields();
+        return $this->_getTableCreator($table)->getFields();
     }
 
     /**
@@ -50,7 +97,7 @@ class SchemaCreator extends AbstractSchemaCreator
      */
     public function getIndexes($table)
     {
-        return $this->getIndexCreator($table)->getIndexes();
+        return $this->_getTableCreator($table)->getIndexes();
     }
 
     /**
@@ -60,7 +107,7 @@ class SchemaCreator extends AbstractSchemaCreator
      */
     public function getForeignKeys($table)
     {
-        return $this->getForeignKeyCreator($table)->getForeignKeys();
+        return $this->_getTableCreator($table)->getForeignKeys();
     }
 
     /**
@@ -70,47 +117,26 @@ class SchemaCreator extends AbstractSchemaCreator
      */
     public function getCreateStatements($table)
     {
+        return $this->_getTableCreator($table)->getCreateStatements();
+    }
+
+    public function getCommentStatements($table)
+    {
         $statements = PHP_EOL;
-        if($statement1 = $this->getFieldCreator($table)->getCreateStatements()){
-            $statements .= $statement1 . PHP_EOL;
-        }
-        if($statement2 = $this->getIndexCreator($table)->getCreateStatements()){
-            $statements .= $statement2 . PHP_EOL;
-        }
-        if($statement3 = $this->getForeignKeyCreator($table)->getCreateStatements()){
-            $statements .= $statement3 . PHP_EOL;
+        if($comment = $this->getComment($table)){
+            $statements .= str_repeat(" ", 8) . "DB::statement(\"ALTER TABLE `{$table}` comment'{$comment}'\");";
         }
         return rtrim($statements, PHP_EOL) . PHP_EOL;
     }
 
     /**
-     * 获取字段生成器对象
+     * 获取数据表生成器对象
      * @param $table
-     * @return FieldCreator
+     * @return TableCreator
      */
-    private function getFieldCreator($table)
+    private function _getTableCreator($table)
     {
-        return new FieldCreator($this->database, $table);
-    }
-
-    /**
-     * 获取索引生成器对象
-     * @param $table
-     * @return IndexCreator
-     */
-    private function getIndexCreator($table)
-    {
-        return new IndexCreator($this->schema, $table);
-    }
-
-    /**
-     * 获取外键生成器对象
-     * @param $table
-     * @return ForeignKeyCreator
-     */
-    private function getForeignKeyCreator($table)
-    {
-        return new ForeignKeyCreator($this->schema, $table);
+        return new TableCreator($this->database, $this->schema, $table);
     }
 
 }

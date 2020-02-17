@@ -11,9 +11,9 @@ use Illuminate\Support\Str;
 
 class MigrateCommand extends Command
 {
-    protected $signature = 'migrate:create {tables?} {--tables=} {--ignores=} {--connection=}';
+    protected $signature = 'migrate:make {tables?} {--tables=} {--ignores=} {--connection=}';
 
-    protected $description = 'Create migrations from an existing database';
+    protected $description = '从已有数据表创建迁移文件';
 
     protected $schema;
 
@@ -83,9 +83,7 @@ class {$this->getClassName($table)} extends Migration
      */
     public function up()
     {
-        Schema::create('{$table}', function (Blueprint \$table) {
-                {$this->getSchemaCreator()->getCreateStatements($table)}
-        });
+        {$this->getSchemaCreator()->getCreateStatements($table)}
     }
     
     /**
