@@ -56,11 +56,16 @@ public function register()
 
 ## 更新日志
 
-Changelog for Laravel Migrations Generator
-
 ### 2020-02-17
 * 支持表注释
-* 支持日期时间字段CURRENT_TIMESTAMP以及on update CURRENT_TIMESTAMP
+* 支持日期时间字段CURRENT_TIMESTAMP
+* 支持日期时间字段ON UPDATE CURRENT_TIMESTAMP
+
+### 2020-02-15
+* 新增获取表注释方法getEngine()
+* 新增获取表引擎方法getComment()
+* 新增获取表字符集方法getCollation()
+* 新增获取表当前自增值方法getAutoIncrement()
 
 ## 致谢声明
 
